@@ -1,0 +1,23 @@
+services:
+  phonon-tts:
+    container_name: phonon-tts
+    build:
+      context: ..
+      dockerfile: phonon/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${TTS_HOST:-127.0.0.1}:8002:8002"
+    environment:
+      PHONON_MODEL: ${PHONON_MODEL:-31m-en}
+      HF_TOKEN: ${HF_TOKEN:-}  # only needed for the gated 40m models
+    volumes:
+      - phonon-cache:/home/phonon/.cache/huggingface  # downloaded weights
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8002/health')"]
+      interval: 30s
+      timeout: 5s
+      start_period: 120s
+      retries: 3
+
+volumes:
+  phonon-cache:

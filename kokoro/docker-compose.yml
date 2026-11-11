@@ -1,10 +1,12 @@
 services:
   kokoro-tts:
-    build: .
+    build:
+      context: ..
+      dockerfile: kokoro/Dockerfile
     container_name: kokoro-tts
     restart: unless-stopped
     runtime: nvidia
     ports:
-      - "8002:8002"
+      - "${TTS_HOST:-127.0.0.1}:8002:8002"
     volumes:
       - ./models:/app/models

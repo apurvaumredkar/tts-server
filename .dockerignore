@@ -1,0 +1,5 @@
+# Build context is tts-server/; models are bind-mounted at run time, never baked in.
+**/models
+**/.git
+**/__pycache__
+**/.venv

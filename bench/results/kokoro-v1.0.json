@@ -1,0 +1,95 @@
+{
+  "engine": "kokoro v1.0 (ONNX, CUDA)",
+  "cold_first_request_s": 0.387,
+  "median_rtf": 0.182,
+  "median_stream_ttfb_s": 0.742,
+  "wer": 0.0204,
+  "rows": [
+    {
+      "chars": 27,
+      "audio_s": 1.71,
+      "generate_s": 0.41,
+      "rtf": 0.24,
+      "stream_ttfb_s": 0.422,
+      "stream_total_s": 0.423,
+      "rate": 24000,
+      "wer": 0.0
+    },
+    {
+      "chars": 42,
+      "audio_s": 2.41,
+      "generate_s": 0.504,
+      "rtf": 0.209,
+      "stream_ttfb_s": 0.511,
+      "stream_total_s": 0.512,
+      "rate": 24000,
+      "wer": 0.0
+    },
+    {
+      "chars": 74,
+      "audio_s": 3.73,
+      "generate_s": 0.709,
+      "rtf": 0.19,
+      "stream_ttfb_s": 0.691,
+      "stream_total_s": 0.692,
+      "rate": 24000,
+      "wer": 0.0
+    },
+    {
+      "chars": 91,
+      "audio_s": 4.54,
+      "generate_s": 0.796,
+      "rtf": 0.175,
+      "stream_ttfb_s": 0.793,
+      "stream_total_s": 0.795,
+      "rate": 24000,
+      "wer": 0.0
+    },
+    {
+      "chars": 98,
+      "audio_s": 5.4,
+      "generate_s": 0.891,
+      "rtf": 0.165,
+      "stream_ttfb_s": 0.889,
+      "stream_total_s": 0.89,
+      "rate": 24000,
+      "wer": 0.111
+    },
+    {
+      "chars": 180,
+      "audio_s": 10.11,
+      "generate_s": 1.51,
+      "rtf": 0.149,
+      "stream_ttfb_s": 1.51,
+      "stream_total_s": 1.512,
+      "rate": 24000,
+      "wer": 0.0
+    }
+  ],
+  "transcripts": [
+    {
+      "ref": "Sure, I can help with that.",
+      "hyp": "Sure I can help with that."
+    },
+    {
+      "ref": "The lights in the living room are now off.",
+      "hyp": "The lights in the living room are now off."
+    },
+    {
+      "ref": "It looks like you have three unread emails from your manager this morning.",
+      "hyp": "It looks like you have three unread emails from your manager this morning."
+    },
+    {
+      "ref": "Traffic is light on the way to the office, so you should get there in about twenty minutes.",
+      "hyp": "Traffic is light on the way to the office, so you should get there in about twenty minutes."
+    },
+    {
+      "ref": "The quick brown fox jumps over the lazy dog while the sleepy cat watches from the warm windowsill.",
+      "hyp": "The quick brown fox jumps over the lazy dog, while the sleepy cat watches from the warm window sill."
+    },
+    {
+      "ref": "I found a nice Italian restaurant nearby. It has great reviews, it is open until eleven tonight, and they take reservations online, so I can book a table for two if you would like.",
+      "hyp": "I found a nice Italian restaurant nearby. It has great reviews, it is open until 11 tonight and they take reservations online, so I can book a table for two if you would like."
+    }
+  ]
+}

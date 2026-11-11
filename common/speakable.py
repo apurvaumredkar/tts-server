@@ -1,13 +1,6 @@
-import io
+"""Text cleaning shared by the TTS engines: strips markdown and emoji so only words are spoken."""
+
 import re
-
-from fastapi import FastAPI, HTTPException, Response
-from pydantic import BaseModel
-import onnxruntime as ort
-from kokoro_onnx import Kokoro
-import soundfile as sf
-
-app = FastAPI()
 
 # Emoji, pictographs, dingbats, symbols, flags, variation selectors and joiners.
 _EMOJI = re.compile(
@@ -58,49 +51,3 @@ def speakable(text: str) -> str:
     text = _EMOJI.sub("", text)
     text = _SPACES.sub(" ", text)
     return "\n".join(line.strip() for line in text.splitlines()).strip()
-
-MODEL = "models/kokoro-v1.0.onnx"
-VOICES = "models/voices-v1.0.bin"
-
-so = ort.SessionOptions()
-so.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
-
-providers = [
-    (
-        "CUDAExecutionProvider",
-        {
-            "device_id": 0,
-            "cudnn_conv_algo_search": "DEFAULT",
-        },
-    ),
-    "CPUExecutionProvider",
-]
-
-session = ort.InferenceSession(MODEL, sess_options=so, providers=providers)
-print("Active providers:", session.get_providers())
-
-
-kokoro = Kokoro.from_session(session, VOICES)
-
-
-@app.get("/health")
-async def health():
-    return {"status": "ok"}
-
-
-class GenerateRequest(BaseModel):
-    text: str
-    voice: str = "bm_daniel"
-    speed: float = 1.0
-    lang: str = "en-us"
-
-
-@app.post("/generate")
-def generate_voice(req: GenerateRequest):
-    text = speakable(req.text)
-    if not text:
-        raise HTTPException(400, "nothing to say after removing markdown and emoji")
-    samples, sr = kokoro.create(text, voice=req.voice, speed=req.speed, lang=req.lang)
-    buffer = io.BytesIO()
-    sf.write(buffer, samples, sr, format="WAV")
-    return Response(content=buffer.getvalue(), media_type="audio/wav")

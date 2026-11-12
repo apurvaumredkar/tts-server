@@ -23,32 +23,31 @@ USAGE
 
 compose() { docker compose -f "$1/docker-compose.yml" "${@:2}"; }
 
-# Remove by container name: the live container may have been started with plain `docker run`,
-# which `docker compose down` would not stop.
-stop_engine() { docker rm -f "$1-tts" >/dev/null 2>&1 || true; }
+# Both engines use the container name `tts-server` (only one runs at a time). Remove by name:
+# the live container may have been started with plain `docker run`, which `docker compose down` would not stop.
+stop_engine() { docker rm -f tts-server >/dev/null 2>&1 || true; }
 
 cmd="${1:-phonon}"
 case "$cmd" in
   kokoro)
     [[ $# -le 1 ]] || usage
-    stop_engine phonon
+    stop_engine
     compose kokoro up -d --build
     ;;
   phonon)
     [[ $# -le 2 ]] || usage
     variant="${2:-31m-en}"
     [[ " $VARIANTS " == *" $variant "* ]] || usage
-    stop_engine kokoro
+    stop_engine
     PHONON_MODEL="$variant" compose phonon up -d --build
     ;;
   stop)
     [[ $# -le 1 ]] || usage
-    stop_engine kokoro
-    stop_engine phonon
+    stop_engine
     exit 0
     ;;
   status)
-    docker ps --filter name=kokoro-tts --filter name=phonon-tts
+    docker ps --filter name=^tts-server$ --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}'
     exit 0
     ;;
   *) usage ;;

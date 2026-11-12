@@ -3,7 +3,7 @@ services:
     build:
       context: ..
       dockerfile: kokoro/Dockerfile
-    container_name: kokoro-tts
+    container_name: tts-server
     restart: unless-stopped
     runtime: nvidia
     ports:

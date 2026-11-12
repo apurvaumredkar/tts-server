@@ -1,6 +1,6 @@
 services:
   phonon-tts:
-    container_name: phonon-tts
+    container_name: tts-server
     build:
       context: ..
       dockerfile: phonon/Dockerfile
